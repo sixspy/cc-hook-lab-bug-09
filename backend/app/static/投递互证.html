@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>投递互证 · 投递台</title>
+  <link rel="stylesheet" href="/styles.css"/>
+  <script src="/common.js"></script>
+</head>
+<body>
+<div id="ten-chip" class="chip" data-title="租户密钥">租户已亮</div>
+
+<header class="顶栏">
+    <div class="牌">投递台</div>
+    <nav>
+      <a href="/">投递台</a>
+      <a href="/端点名册.html">端点名册</a>
+      <a href="/事件队列.html">事件队列</a>
+      <a href="/投递流水.html">投递流水</a>
+      <a href="/死信匣.html">死信匣</a>
+      <a href="/签名规.html">签名规</a>
+      <a href="/投递互证.html" class="亮">投递互证</a>
+      <a href="/事件详情.html">事件详情</a>
+    </nav>
+    <button class="按钮 次" type="button" onclick="fetch('/api/登出',{method:'POST'}).then(()=>location.href='/login')">退出</button>
+  </header>
+  <main class="主区">
+    <header class="页头">
+      <h1>投递互证</h1>
+      <p>Webhook 投递控制台 · 应用开发全栈 · 非工单客服</p>
+    </header>
+
+<section class="卷">
+  <button class="按钮" type="button" id="跑">跑互证</button>
+  <pre id="出" class="说明"></pre>
+</section>
+<section class="卷"><div class="表绕"><table><thead><tr><th>批次号</th><th>时刻</th><th>事件总数</th><th>已投递</th><th>死信</th><th>待投</th><th>对齐</th><th>说明</th></tr></thead><tbody id="表"></tbody></table></div></section>
+
+  </main>
+
+<script>
+async function 刷表() {
+  const rows = await 投递台.getJSON('/api/互证');
+  const tb = document.getElementById('表'); tb.innerHTML='';
+  for (const r of rows) {
+    tb.appendChild(投递台.行('<td>'+r.批次号+'</td><td>'+投递台.安全文本(r.时刻)+'</td><td>'+r.事件总数+'</td><td>'+r.已投递数+'</td><td>'+r.死信数+'</td><td>'+r.待投数+'</td><td>'+(r.是否对齐?'是':'否')+'</td><td>'+投递台.安全文本(r.说明)+'</td>'));
+  }
+}
+document.getElementById('跑').onclick = async () => {
+  document.getElementById('出').textContent = JSON.stringify(await 投递台.postJSON('/api/互证/跑',{}), null, 2);
+  await 刷表();
+};
+刷表();
+</script>
+
+</body>
+</html>

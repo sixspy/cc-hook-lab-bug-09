@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>事件详情 · 投递台</title>
+  <link rel="stylesheet" href="/styles.css"/>
+  <script src="/common.js"></script>
+</head>
+<body>
+<header class="顶栏">
+    <div class="牌">投递台</div>
+    <nav>
+      <a href="/">投递台</a>
+      <a href="/端点名册.html">端点名册</a>
+      <a href="/事件队列.html">事件队列</a>
+      <a href="/投递流水.html">投递流水</a>
+      <a href="/死信匣.html">死信匣</a>
+      <a href="/签名规.html">签名规</a>
+      <a href="/投递互证.html">投递互证</a>
+      <a href="/事件详情.html" class="亮">事件详情</a>
+    </nav>
+    <button class="按钮 次" type="button" onclick="fetch('/api/登出',{method:'POST'}).then(()=>location.href='/login')">退出</button>
+  </header>
+  <main class="主区">
+    <header class="页头">
+      <h1>事件详情</h1>
+      <p>Webhook 投递控制台 · 应用开发全栈 · 非工单客服</p>
+    </header>
+
+<section class="卷">
+  <label>事件号</label><input id="事件号"/>
+  <button class="按钮" type="button" id="查">查询</button>
+  <pre id="出" class="说明"></pre>
+</section>
+
+  </main>
+
+<script>
+document.getElementById('查').onclick = async () => {
+  try {
+    const id = document.getElementById('事件号').value;
+    document.getElementById('出').textContent = JSON.stringify(await 投递台.getJSON('/api/事件/'+encodeURIComponent(id)), null, 2);
+  } catch (e) { document.getElementById('出').textContent = e.message; }
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>事件队列 · 投递台</title>
+  <link rel="stylesheet" href="/styles.css"/>
+  <script src="/common.js"></script>
+</head>
+<body>
+<div id="ten-chip" class="chip" data-title="租户密钥">租户已亮</div>
+
+<header class="顶栏">
+    <div class="牌">投递台</div>
+    <nav>
+      <a href="/">投递台</a>
+      <a href="/端点名册.html">端点名册</a>
+      <a href="/事件队列.html" class="亮">事件队列</a>
+      <a href="/投递流水.html">投递流水</a>
+      <a href="/死信匣.html">死信匣</a>
+      <a href="/签名规.html">签名规</a>
+      <a href="/投递互证.html">投递互证</a>
+      <a href="/事件详情.html">事件详情</a>
+    </nav>
+    <button class="按钮 次" type="button" onclick="fetch('/api/登出',{method:'POST'}).then(()=>location.href='/login')">退出</button>
+  </header>
+  <main class="主区">
+    <header class="页头">
+      <h1>事件队列</h1>
+      <p>Webhook 投递控制台 · 应用开发全栈 · 非工单客服</p>
+    </header>
+
+<section class="卷">
+  <label>事件类型</label><input id="事件类型" placeholder="例如 invoice.paid"/>
+  <label>端点键</label><input id="端点键" placeholder="ep-billing" value="ep-billing"/>
+  <label>载荷摘要</label><input id="载荷摘要" placeholder="key=value"/>
+  <label>优先级</label><select id="优先级"><option>紧急</option><option selected>普通</option><option>低</option></select>
+  <p class="消息" id="消息"></p>
+  <button class="按钮" type="button" id="入队钮">入队（待投）</button>
+  <button class="按钮 次" type="button" id="夹具钮">灌夹具样例</button>
+</section>
+<section class="卷"><div class="表绕"><table><thead><tr><th>事件号</th><th>事件类型</th><th>端点键</th><th>载荷摘要</th><th>状态</th></tr></thead><tbody id="表"></tbody></table></div></section>
+
+  </main>
+
+<script>
+async function 刷表() {
+  const rows = await 投递台.getJSON('/api/事件');
+  const tb = document.getElementById('表'); tb.innerHTML='';
+  for (const r of rows) {
+    const tr = 投递台.行('<td>'+投递台.安全文本(r.事件号)+'</td><td>'+投递台.安全文本(r.事件类型)+'</td><td>'+投递台.安全文本(r.端点键)+'</td><td>'+投递台.安全文本(r.载荷摘要)+'</td><td></td>');
+    tr.children[4].appendChild(投递台.徽章(r.状态)); tb.appendChild(tr);
+  }
+}
+document.getElementById('入队钮').onclick = async () => {
+  const 消息 = document.getElementById('消息');
+  try {
+    await 投递台.postJSON('/api/事件/入队', {
+      事件类型: document.getElementById('事件类型').value,
+      端点键: document.getElementById('端点键').value,
+      载荷摘要: document.getElementById('载荷摘要').value,
+      优先级: document.getElementById('优先级').value,
+    });
+    消息.textContent = '已入队，状态待投';
+    await 刷表();
+  } catch (e) { 消息.textContent = e.message; }
+};
+document.getElementById('夹具钮').onclick = async () => {
+  await 投递台.postJSON('/api/夹具入队/批量事件样例', {});
+  await 刷表();
+};
+刷表();
+</script>
+
+</body>
+</html>

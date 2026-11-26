@@ -1,0 +1,21 @@
+name: hookbug09
+services:
+  hook:
+    build: ./backend
+    container_name: cc-hook-lab-hook-bug-09
+    ports: ["8619:8500"]
+    volumes:
+      - hook_data:/data
+      - ./fixtures:/fixtures:ro
+    environment:
+      数据目录: /data
+      夹具目录: /fixtures
+      端口: "8500"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8500/login', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+volumes:
+  hook_data:

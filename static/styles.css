@@ -1,0 +1,125 @@
+  :root {
+    --纸: #f6f0e6;
+    --墨: #2a2520;
+    --靛: #1e3a5f;
+    --靛浅: #2c5282;
+    --边: #d9cbb8;
+    --好: #2d6a4f;
+    --警: #b7791f;
+    --险: #9b2c2c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--纸);
+    color: var(--墨);
+    min-height: 100vh;
+  }
+  .顶栏 {
+    background: linear-gradient(90deg, var(--靛), var(--靛浅));
+    color: #f5f3ee;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 52px;
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.25);
+  }
+  .顶栏 .牌 { font-weight: 700; letter-spacing: 0.08em; }
+  .顶栏 nav { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+  .顶栏 nav a {
+    color: #e8edf5;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .顶栏 nav a.亮, .顶栏 nav a:hover { background: rgba(255,255,255,0.15); }
+  .主区 { max-width: 1100px; margin: 0 auto; padding: 20px 16px 48px; }
+  .页头 h1 { margin: 0 0 6px; font-size: 1.6rem; color: var(--靛); }
+  .页头 p { margin: 0 0 16px; opacity: 0.85; }
+.卷 {
+    background: #fffdf8;
+    border: 1px solid var(--边);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 0 rgba(42,37,32,0.06);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border-bottom: 1px solid var(--边); padding: 8px 6px; text-align: left; }
+  th { color: var(--靛); font-weight: 600; }
+  .徽章 {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: #e8eef5;
+    color: var(--靛);
+  }
+  .徽章.待投 { background: #fde8c8; color: #9a5700; }
+  .徽章.投递中 { background: #dbeafe; color: #1e40af; }
+  .徽章.待确认 { background: #fef3c7; color: #92400e; }
+  .徽章.已投递 { background: #d1fae5; color: var(--好); }
+  .徽章.已作废 { background: #fee2e2; color: var(--险); }
+  .按钮 {
+    background: var(--靛);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .按钮.次 { background: #6b5b4f; }
+  .按钮:disabled { opacity: 0.45; cursor: not-allowed; }
+  label { display: block; margin: 8px 0 4px; font-size: 13px; }
+  input, select, textarea {
+    width: 100%;
+    max-width: 420px;
+    padding: 8px 10px;
+    border: 1px solid var(--边);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .登录壳 {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--纸);
+  }
+  .登录左 {
+    padding: 48px;
+    background: var(--靛);
+    color: #f0f4fa;
+  }
+  .登录右 { display: flex; align-items: center; justify-content: center; padding: 32px; }
+  .登录卡 {
+    width: min(380px, 100%);
+    background: #fffdf8;
+    border: 1px solid var(--边);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .链尺 { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .链尺 span {
+    background: rgba(255,255,255,0.12);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .指标 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .指标 .卡 {
+    background: #fff;
+    border: 1px solid var(--边);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .指标 .卡 b { display: block; font-size: 1.4rem; color: var(--靛); }
+  .说明 { font-size: 13px; line-height: 1.55; opacity: 0.9; }
+  .消息 { color: var(--险); font-size: 13px; min-height: 1.2em; }
+  @media (max-width: 720px) {
+    .登录壳 { grid-template-columns: 1fr; }
+    .登录左 { padding: 28px; }
+  }

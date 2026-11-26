@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <title>投递台登录</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <div class="登录壳">
+    <section class="登录左">
+      <h1>投递台</h1>
+      <p>全栈业务事件：受理、投递、死信、互证、通道互证。版式是顶栏多页翻页，不是单页 hash 路由。</p>
+      <div class="链尺">
+        <span>受理</span><span>投递</span><span>死信</span><span>互证</span><span>互证</span>
+      </div>
+    </section>
+    <section class="登录右">
+      <div class="登录卡">
+        <h2>登录</h2>
+        <p class="说明">默认账号 admin / 密码 123456</p>
+        <label>账号</label>
+        <input id="账号" value="admin" autocomplete="username"/>
+        <label>密码</label>
+        <input id="密码" type="password" value="123456" autocomplete="current-password"/>
+        <p class="消息" id="消息"></p>
+        <button class="按钮" type="button" id="登录钮">进入投递台</button>
+      </div>
+    </section>
+  </div>
+  <script>
+  document.getElementById('登录钮').onclick = async () => {
+    const 消息 = document.getElementById('消息');
+    try {
+      const r = await fetch('/api/登录', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          账号: document.getElementById('账号').value,
+          密码: document.getElementById('密码').value,
+        }),
+      });
+      const data = await r.json();
+      if (data.ok) location.href = '/';
+      else 消息.textContent = data.错误 || '登录失败';
+    } catch (e) { 消息.textContent = String(e); }
+  };
+  </script>
+</body>
+</html>
